@@ -29,6 +29,9 @@ let waiting = false;
 
 let matchedPairs = 0;
 
+const newGameButton = document.getElementById("new-game");
+let flipTimer = null;
+
 function buildBoard() {
     deck = shuffle([...fruits, ...fruits]);
 
@@ -47,6 +50,30 @@ function buildBoard() {
             board.appendChild(button);
         }
 }
+
+function newGame() {
+    if (flipTimer !== null) {
+        clearTimeout(flipTimer);
+        flipTimer = null;
+    }
+
+    waiting = false;
+
+    moves = 0;
+    movesDisplay.textContent = moves;
+
+    matchedPairs = 0;
+
+    flippedCards.length = 0;
+
+    statusDisplay.textContent = "Turn over two cards to find a matching pair.";
+
+    statusDisplay.classList.remove("you-won");
+
+    buildBoard();
+}
+
+newGameButton.addEventListener("click", newGame);
 
 board.addEventListener("click", function(event){ 
     const card = event.target;
@@ -100,7 +127,7 @@ board.addEventListener("click", function(event){
             if (matchedPairs === fruits.length) {
                 statusDisplay.textContent = `You found all the pairs in ${moves} moves!`;
                 
-                statusDisplay.classList.add("you won");
+                statusDisplay.classList.add("you-won");
             }
 
           }
@@ -130,6 +157,9 @@ board.addEventListener("click", function(event){
                 flippedCards.length = 0;
 
                 waiting = false;
+                flipTimer = null;
+
+                waiting = false;
 
 
             }, 1000);
@@ -139,4 +169,4 @@ board.addEventListener("click", function(event){
 });
 
 
-buildBoard();
+newGame();
