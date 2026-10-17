@@ -27,6 +27,8 @@ const statusDisplay = document.getElementById("status");
 
 let waiting = false;
 
+let matchedPairs = 0;
+
 function buildBoard() {
     deck = shuffle([...fruits, ...fruits]);
 
@@ -92,6 +94,14 @@ board.addEventListener("click", function(event){
             statusDisplay.textContent = "That's a pair";
 
             flippedCards.length = 0;
+
+            matchedPairs++;
+
+            if (matchedPairs === fruits.length) {
+                statusDisplay.textContent = `You found all the pairs in ${moves} moves!`;
+                
+                statusDisplay.classList.add("you won");
+            }
 
           }
 
